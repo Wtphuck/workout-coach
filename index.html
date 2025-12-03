@@ -320,7 +320,25 @@ textarea {
   font-size: 0.78rem;
   margin-top: 3px;
 }
+.exercise-count-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 6px;
+}
 
+.inline-select {
+  width: auto;
+  min-width: 70px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background: #020617;
+  color: var(--text);
+  font-size: 0.8rem;
+}
+    
 @media (max-width: 480px) {
   .app {
     padding: 12px;
@@ -348,6 +366,12 @@ textarea {
       <!-- TODAY TAB -->
       <div id="tab-today" class="tab active">
         <div id="todayMeta" class="small-text"></div>
+
+        <div id="exerciseCountRow" class="exercise-count-row">
+          <span class="small-text">Exercises today:</span>
+          <select id="exerciseCountSelect" class="inline-select"></select>
+        </div>
+
         <h2 id="todayName"></h2>
         <ul id="exerciseList"></ul>
         <button class="primary" id="doneButton"></button>
@@ -511,7 +535,6 @@ textarea {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) throw new Error("no data");
         const parsed = JSON.parse(raw);
-        // Ensure required fields exist
         if (!parsed.planId || !PLAN_LIBRARY[parsed.planId]) {
           parsed.planId = "ppl";
         }
@@ -520,14 +543,16 @@ textarea {
         }
         if (!parsed.completed) parsed.completed = {};
         if (!parsed.restEvery) parsed.restEvery = 0;
+        if (!parsed.perDayTargets) parsed.perDayTargets = {}; // NEW: per-date exercise counts
         return parsed;
       } catch {
         const todayIso = todayLocal().toISOString().slice(0, 10);
         const fresh = {
           planId: "ppl",
           startDateIso: todayIso,
-          completed: {}, // map of dateKey -> true
+          completed: {},
           restEvery: 0,
+          perDayTargets: {},
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
         return fresh;
@@ -556,7 +581,6 @@ textarea {
         return { type: "prestart" };
       }
 
-      // Rest rule
       if (state.restEvery && state.restEvery > 0) {
         const cycleIndex = diffDays % state.restEvery;
         if (cycleIndex === state.restEvery - 1) {
@@ -565,10 +589,9 @@ textarea {
       }
 
       const nonRestCycleLength = plan.days.length;
-      // Effective training day index (skip rest pattern)
+
       let trainingDayIndex = diffDays;
       if (state.restEvery && state.restEvery > 0) {
-        // Every Nth day is rest, so subtract number of rests so far
         const restsSoFar = Math.floor((diffDays + 1) / state.restEvery);
         trainingDayIndex = diffDays - restsSoFar;
       }
@@ -579,7 +602,7 @@ textarea {
       return { type: "workout", workout: plan.days[idx] };
     }
 
-    // ---------- UI RENDERING ----------
+    // ---------- UI ELEMENTS ----------
     const tabButtons = document.querySelectorAll(".tab-btn");
     const tabs = {
       today: document.getElementById("tab-today"),
@@ -613,6 +636,11 @@ textarea {
     const restoreButtonEl = document.getElementById("restoreButton");
     const resetButtonEl = document.getElementById("resetButton");
 
+    // NEW: elements for exercise count selector
+    const exerciseCountRowEl = document.getElementById("exerciseCountRow");
+    const exerciseCountSelectEl = document.getElementById("exerciseCountSelect");
+
+    // ---------- TODAY RENDER ----------
     function renderToday() {
       const today = todayLocal();
       const todayKey = formatDateKey(today);
@@ -626,22 +654,21 @@ textarea {
       })} • ${plan.name}`;
 
       exerciseListEl.innerHTML = "";
+      exerciseCountRowEl.style.display = "none"; // default hidden
 
-     if (info.type === "prestart") {
-  todayNameEl.textContent = "Plan hasn’t started yet";
-  exerciseListEl.innerHTML = "";
-  doneButtonEl.textContent = "Start plan today";
-  doneButtonEl.classList.remove("done");
-  doneButtonEl.onclick = () => {
-    // force start today and clear any old history
-    state.startDateIso = todayKey;
-    state.completed = state.completed || {};
-    saveData(state);
-    alert("Plan started from today!");
-    renderAll();
-  };
-  return;
-}
+      if (info.type === "prestart") {
+        todayNameEl.textContent = "Plan hasn’t started yet";
+        doneButtonEl.textContent = "Start plan today";
+        doneButtonEl.classList.remove("done");
+        doneButtonEl.onclick = () => {
+          state.startDateIso = todayKey;
+          state.completed = state.completed || {};
+          saveData(state);
+          alert("Plan started from today!");
+          renderAll();
+        };
+        return;
+      }
 
       if (info.type === "rest") {
         todayNameEl.textContent = "Rest Day 😴";
@@ -652,7 +679,36 @@ textarea {
         exerciseListEl.appendChild(li);
       } else if (info.type === "workout") {
         todayNameEl.textContent = info.workout.name;
-        info.workout.exercises.forEach((ex) => {
+
+        const total = info.workout.exercises.length;
+
+        // figure out how many exercises user wants for today
+        state.perDayTargets = state.perDayTargets || {};
+        let target = state.perDayTargets[todayKey];
+        if (!target || target < 1 || target > total) {
+          target = total; // default: all
+        }
+
+        // show selector row
+        exerciseCountRowEl.style.display = "flex";
+        exerciseCountSelectEl.innerHTML = "";
+        for (let i = 1; i <= total; i++) {
+          const opt = document.createElement("option");
+          opt.value = i;
+          opt.textContent = i;
+          if (i === target) opt.selected = true;
+          exerciseCountSelectEl.appendChild(opt);
+        }
+
+        exerciseCountSelectEl.onchange = () => {
+          const val = parseInt(exerciseCountSelectEl.value, 10) || total;
+          state.perDayTargets[todayKey] = Math.max(1, Math.min(total, val));
+          saveData(state);
+          renderAll();
+        };
+
+        // render only the chosen number of exercises
+        info.workout.exercises.slice(0, target).forEach((ex) => {
           const li = document.createElement("li");
           li.className = "exercise-row";
           li.innerHTML = `<span>${ex.name}</span><span class="badge">${ex.sets} × ${ex.reps}</span>`;
@@ -682,14 +738,14 @@ textarea {
         renderAll();
       };
 
-      // streak
       const streak = computeStreak();
       if (streak > 0) {
         streakTextEl.innerHTML = `Current streak: <span class="streak-strong">${streak} day${
           streak === 1 ? "" : "s"
         }</span>`;
       } else {
-        streakTextEl.textContent = "No current streak yet. Today’s a good day to start!";
+        streakTextEl.textContent =
+          "No current streak yet. Today’s a good day to start!";
       }
     }
 
@@ -708,6 +764,7 @@ textarea {
       return streak;
     }
 
+    // ---------- HISTORY ----------
     function renderHistory() {
       const today = dateOnly(todayLocal());
       const days = [];
@@ -719,7 +776,6 @@ textarea {
         days.push({ date: d, key, info, isDone });
       }
 
-      // graph
       historyGraphEl.innerHTML = "";
       days.forEach((d) => {
         const wrap = document.createElement("div");
@@ -744,7 +800,6 @@ textarea {
         historyGraphEl.appendChild(wrap);
       });
 
-      // list
       historyListEl.innerHTML = "";
       days
         .slice()
@@ -791,10 +846,10 @@ textarea {
           left.appendChild(labels);
 
           const right = document.createElement("div");
-          right.className = d.isDone
-            ? "status-complete"
-            : d.info.type === "rest"
+          right.className = d.info.type === "rest"
             ? ""
+            : d.isDone
+            ? "status-complete"
             : "status-missed";
           right.textContent =
             d.info.type === "rest"
@@ -809,21 +864,21 @@ textarea {
         });
     }
 
+    // ---------- SETTINGS ----------
     function renderSettings() {
-      // Plan select
       planSelectEl.value = state.planId || "ppl";
-      startDateInputEl.value = state.startDateIso || formatDateKey(todayLocal());
+      startDateInputEl.value =
+        state.startDateIso || formatDateKey(todayLocal());
       restSelectEl.value = String(state.restEvery || 0);
     }
 
     function renderAll() {
-      state = loadData(); // ensure we're up to date
+      state = loadData();
       renderToday();
       renderHistory();
       renderSettings();
     }
 
-    // ---------- SETTINGS HANDLERS ----------
     planSelectEl.addEventListener("change", () => {
       const newPlan = planSelectEl.value;
       if (PLAN_LIBRARY[newPlan]) {
@@ -861,7 +916,9 @@ textarea {
         }
       } catch {
         restoreInputEl.value = data;
-        alert("Could not copy automatically. Backup JSON placed in the box instead.");
+        alert(
+          "Could not copy automatically. Backup JSON placed in the box instead."
+        );
       }
     });
 
@@ -874,7 +931,6 @@ textarea {
       if (!confirm("Restore backup? This will overwrite current progress.")) return;
       try {
         const parsed = JSON.parse(raw);
-        // basic sanity check
         if (!parsed.startDateIso || !parsed.planId) {
           throw new Error("invalid");
         }
@@ -899,5 +955,6 @@ textarea {
   </script>
 </body>
 </html>
+
 
 
