@@ -627,17 +627,21 @@ textarea {
 
       exerciseListEl.innerHTML = "";
 
-      if (info.type === "prestart") {
-        todayNameEl.textContent = "Plan hasn’t started yet";
-        doneButtonEl.textContent = "Start plan today";
-        doneButtonEl.classList.remove("done");
-        doneButtonEl.onclick = () => {
-          state.startDateIso = todayKey;
-          saveData(state);
-          renderAll();
-        };
-        return;
-      }
+     if (info.type === "prestart") {
+  todayNameEl.textContent = "Plan hasn’t started yet";
+  exerciseListEl.innerHTML = "";
+  doneButtonEl.textContent = "Start plan today";
+  doneButtonEl.classList.remove("done");
+  doneButtonEl.onclick = () => {
+    // force start today and clear any old history
+    state.startDateIso = todayKey;
+    state.completed = state.completed || {};
+    saveData(state);
+    alert("Plan started from today!");
+    renderAll();
+  };
+  return;
+}
 
       if (info.type === "rest") {
         todayNameEl.textContent = "Rest Day 😴";
@@ -895,4 +899,5 @@ textarea {
   </script>
 </body>
 </html>
+
 
