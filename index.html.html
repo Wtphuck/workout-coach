@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Workout Coach</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Make it behave more "app-like" on iPhone -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Workout Coach">
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 16px;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    .card {
+      background: #111827;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 4px;
+    }
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 0;
+      color: #a5b4fc;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0;
+    }
+    li {
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: #020617;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .badge {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 999px;
+      border: none;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      background: #22c55e;
+      color: #022c22;
+    }
+    button.done {
+      background: #334155;
+      color: #e5e7eb;
+    }
+    .small {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Today's Workout</h1>
+    <h2 id="workoutName"></h2>
+
+    <ul id="exerciseList"></ul>
+
+    <button id="doneButton"></button>
+
+    <p class="small">
+      Tip: set a daily iOS Reminder like “Do workout – open Workout Coach”.
+    </p>
+  </div>
+
+  <script>
+    // Simple 3-day Push / Pull / Legs cycle
+    const plan = [
+      {
+        name: "Push",
+        exercises: [
+          { name: "Bench Press", sets: 3, reps: 10 },
+          { name: "Shoulder Press", sets: 3, reps: 10 },
+          { name: "Triceps Pushdown", sets: 3, reps: 12 }
+        ]
+      },
+      {
+        name: "Pull",
+        exercises: [
+          { name: "Lat Pulldown", sets: 3, reps: 10 },
+          { name: "Row", sets: 3, reps: 10 },
+          { name: "Biceps Curl", sets: 3, reps: 12 }
+        ]
+      },
+      {
+        name: "Legs",
+        exercises: [
+          { name: "Squats", sets: 3, reps: 10 },
+          { name: "Lunges", sets: 3, reps: 10 },
+          { name: "Calf Raises", sets: 3, reps: 15 }
+        ]
+      }
+    ];
+
+    // Load or set start date
+    const START_DATE_KEY = "wc_startDate";
+    const DONE_DATES_KEY = "wc_doneDates";
+
+    function getStartDate() {
+      const stored = localStorage.getItem(START_DATE_KEY);
+      if (stored) return new Date(stored);
+      const today = new Date();
+      localStorage.setItem(START_DATE_KEY, today.toISOString());
+      return today;
+    }
+
+    function getDoneDates() {
+      try {
+        const raw = localStorage.getItem(DONE_DATES_KEY);
+        if (!raw) return {};
+        return JSON.parse(raw);
+      } catch {
+        return {};
+      }
+    }
+
+    function saveDoneDates(map) {
+      localStorage.setItem(DONE_DATES_KEY, JSON.stringify(map));
+    }
+
+    function dateKey(d) {
+      return d.toISOString().slice(0, 10); // yyyy-mm-dd
+    }
+
+    function getTodaysWorkout() {
+      const start = new Date(getStartDate().toDateString());
+      const today = new Date(new Date().toDateString());
+      const diffMs = today - start;
+      const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const index = ((days % plan.length) + plan.length) % plan.length;
+      return plan[index];
+    }
+
+    function render() {
+      const workout = getTodaysWorkout();
+      const workoutName = document.getElementById("workoutName");
+      const exerciseList = document.getElementById("exerciseList");
+      const doneButton = document.getElementById("doneButton");
+
+      workoutName.textContent = workout.name;
+      exerciseList.innerHTML = "";
+
+      workout.exercises.forEach(ex => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <span>${ex.name}</span>
+          <span class="badge">${ex.sets} x ${ex.reps}</span>
+        `;
+        exerciseList.appendChild(li);
+      });
+
+      const doneMap = getDoneDates();
+      const todayKey = dateKey(new Date());
+      const isDone = !!doneMap[todayKey];
+
+      if (isDone) {
+        doneButton.textContent = "Completed ✅";
+        doneButton.classList.add("done");
+      } else {
+        doneButton.textContent = "Mark as Done";
+        doneButton.classList.remove("done");
+      }
+
+      doneButton.onclick = () => {
+        const map = getDoneDates();
+        if (map[todayKey]) {
+          delete map[todayKey];
+        } else {
+          map[todayKey] = true;
+        }
+        saveDoneDates(map);
+        render();
+      };
+    }
+
+    render();
+  </script>
+</body>
+</html>
