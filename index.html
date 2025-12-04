@@ -37,9 +37,9 @@
     }
 
     .app {
-      max-width: 480px;
+      max-width: 520px;
       margin: 0 auto;
-      padding: 16px;
+      padding: 18px;
       min-height: 100vh;
       display: flex;
       align-items: flex-start;
@@ -49,38 +49,38 @@
     .card {
       width: 100%;
       background: #020617;
-      border-radius: 16px;
-      padding: 16px 16px 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+      border-radius: 18px;
+      padding: 18px 18px 20px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
       border: 1px solid #111827;
     }
 
     h1 {
-      font-size: 1.4rem;
-      margin: 0 0 2px;
+      font-size: 1.6rem;
+      margin: 0 0 4px;
     }
 
     .subtitle {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--text-subtle);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     /* Tabs */
     .tabs {
       display: flex;
-      gap: 6px;
-      margin-bottom: 12px;
+      gap: 8px;
+      margin-bottom: 14px;
     }
 
     .tab-btn {
       flex: 1;
-      padding: 6px 8px;
+      padding: 8px 10px;
       border-radius: 999px;
       border: 1px solid #1f2937;
       background: #020617;
       color: var(--text-subtle);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 500;
       cursor: pointer;
     }
@@ -100,49 +100,61 @@
     }
 
     h2 {
-      font-size: 1.1rem;
-      margin: 4px 0 8px;
+      font-size: 1.2rem;
+      margin: 6px 0 10px;
       color: #c4b5fd;
     }
 
     h3 {
-      font-size: 0.95rem;
-      margin: 14px 0 6px;
+      font-size: 1rem;
+      margin: 16px 0 6px;
       color: #bfdbfe;
     }
 
     ul {
       list-style: none;
       padding: 0;
-      margin: 8px 0;
+      margin: 10px 0;
     }
 
     li.exercise-row {
-      padding: 7px 9px;
-      border-radius: 10px;
+      padding: 9px 11px;
+      border-radius: 12px;
       background: #020617;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 5px;
-      font-size: 0.9rem;
+      margin-bottom: 7px;
+      font-size: 0.95rem;
       border: 1px solid var(--border-soft);
+      gap: 10px;
+    }
+
+    .exercise-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .exercise-name {
+      font-size: 0.97rem;
     }
 
     .badge {
       font-size: 0.8rem;
-      opacity: 0.8;
+      opacity: 0.9;
+      color: var(--text-subtle);
     }
 
     /* Buttons */
     button.primary {
       width: 100%;
-      margin-top: 10px;
-      padding: 9px;
+      margin-top: 12px;
+      padding: 11px;
       border-radius: 999px;
       border: none;
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 1rem;
       cursor: pointer;
       background: var(--accent);
       color: #022c22;
@@ -162,34 +174,45 @@
     button.secondary {
       width: 100%;
       margin-top: 8px;
-      padding: 7px;
+      padding: 8px;
       border-radius: 999px;
       border: none;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       cursor: pointer;
       background: var(--accent-muted);
       color: var(--text);
     }
 
     button.small {
-      padding: 4px 9px;
+      padding: 5px 10px;
       border-radius: 999px;
       border: 1px solid var(--border-soft);
       background: #020617;
       color: var(--text-subtle);
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       cursor: pointer;
     }
 
+    .info-btn {
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #020617;
+      color: var(--accent-soft);
+      font-size: 0.8rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
     .small-text {
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       color: var(--text-subtle);
       margin-top: 8px;
     }
 
     .streak {
-      margin-top: 6px;
-      font-size: 0.88rem;
+      margin-top: 8px;
+      font-size: 0.9rem;
     }
 
     .streak-strong {
@@ -197,29 +220,30 @@
       font-weight: 600;
     }
 
-    /* Focus + exercise count rows */
+    /* Inline rows */
     .row-inline {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 10px;
       margin-top: 6px;
+      flex-wrap: wrap;
     }
 
     .inline-select {
       width: auto;
-      min-width: 90px;
-      padding: 4px 8px;
+      min-width: 110px;
+      padding: 5px 10px;
       border-radius: 999px;
       border: 1px solid var(--border-soft);
       background: #020617;
       color: var(--text);
-      font-size: 0.8rem;
+      font-size: 0.82rem;
     }
 
     /* History rows */
     .status-row {
-      padding: 6px 9px;
+      padding: 7px 10px;
       background: #020617;
       border-radius: 10px;
       display: flex;
@@ -227,7 +251,7 @@
       justify-content: space-between;
       margin-bottom: 5px;
       border: 1px solid var(--border-soft);
-      font-size: 0.87rem;
+      font-size: 0.9rem;
     }
 
     .status-left {
@@ -237,8 +261,8 @@
     }
 
     .status-icon {
-      font-size: 0.95rem;
-      width: 1.4rem;
+      font-size: 1rem;
+      width: 1.5rem;
       text-align: center;
     }
 
@@ -264,8 +288,8 @@
       display: flex;
       align-items: flex-end;
       gap: 6px;
-      height: 60px;
-      margin: 8px 0 3px;
+      height: 70px;
+      margin: 8px 0 4px;
     }
 
     .graph-bar-wrapper {
@@ -276,7 +300,7 @@
     }
 
     .graph-bar {
-      width: 12px;
+      width: 14px;
       border-radius: 999px 999px 0 0;
       background: #111827;
       position: relative;
@@ -299,7 +323,7 @@
 
     /* Settings */
     .settings-group {
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       padding-bottom: 8px;
       border-bottom: 1px solid #111827;
     }
@@ -310,7 +334,7 @@
     }
 
     .settings-label {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: var(--text-subtle);
       margin-bottom: 3px;
     }
@@ -319,12 +343,12 @@
     input[type="date"],
     textarea {
       width: 100%;
-      padding: 6px 8px;
+      padding: 7px 9px;
       border-radius: 10px;
       border: 1px solid var(--border-soft);
       background: #020617;
       color: var(--text);
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       font-family: inherit;
     }
 
@@ -335,8 +359,64 @@
 
     .danger-text {
       color: var(--danger);
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       margin-top: 3px;
+    }
+
+    /* Modal for "WTF is this?" */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal.hidden {
+      display: none;
+    }
+
+    .modal-content {
+      background: #020617;
+      border-radius: 18px;
+      padding: 16px;
+      max-width: 380px;
+      width: 90%;
+      border: 1px solid #1f2937;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1.25rem;
+    }
+
+    .modal-content img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .modal-content p {
+      font-size: 0.88rem;
+      color: var(--text-subtle);
+      margin-bottom: 12px;
+    }
+
+    .modal-close {
+      width: 100%;
+      padding: 8px;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.95rem;
+      background: var(--accent-soft);
+      color: #022c22;
+      cursor: pointer;
+      font-weight: 600;
     }
 
     @media (max-width: 480px) {
@@ -354,7 +434,7 @@
     <div class="card">
       <h1>Workout Coach</h1>
       <div class="subtitle">
-        Lightweight offline workout tracker. Data stays on your device.
+        Lightweight offline-ish workout tracker. Data stays in your browser.
       </div>
 
       <div class="tabs">
@@ -460,10 +540,20 @@
     </div>
   </div>
 
+  <!-- Modal for WTF button -->
+  <div id="exerciseModal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="modalTitle"></h2>
+      <img id="modalImage" alt="" />
+      <p id="modalText"></p>
+      <button id="modalClose" class="modal-close">Got it</button>
+    </div>
+  </div>
+
   <script>
     const STORAGE_KEY = "wc_v2_data";
 
-    // Default rotation plans (used when focus = plan)
+    // Plans (used when focus = "plan")
     const PLAN_LIBRARY = {
       ppl: {
         id: "ppl",
@@ -472,28 +562,73 @@
           {
             name: "Push",
             exercises: [
-              { name: "Bench Press", sets: 3, reps: 10 },
-              { name: "Shoulder Press", sets: 3, reps: 10 },
-              { name: "Triceps Pushdown", sets: 3, reps: 12 },
-            ],
+              {
+                name: "Bench Press",
+                sets: 3,
+                reps: 10,
+                tip: "Lie on a bench, grip slightly wider than shoulders, lower to mid chest, and press while keeping your feet planted."
+              },
+              {
+                name: "Shoulder Press",
+                sets: 3,
+                reps: 10,
+                tip: "Sit or stand tall, press dumbbells or bar overhead, avoid arching your lower back."
+              },
+              {
+                name: "Triceps Pushdown",
+                sets: 3,
+                reps: 12,
+                tip: "Keep elbows pinned to your sides, push the cable handle down until arms are straight, then control it back up."
+              }
+            ]
           },
           {
             name: "Pull",
             exercises: [
-              { name: "Lat Pulldown", sets: 3, reps: 10 },
-              { name: "Row", sets: 3, reps: 10 },
-              { name: "Biceps Curl", sets: 3, reps: 12 },
-            ],
+              {
+                name: "Lat Pulldown",
+                sets: 3,
+                reps: 10,
+                tip: "Lean back slightly, pull the bar to upper chest, think about driving elbows down and back."
+              },
+              {
+                name: "Row",
+                sets: 3,
+                reps: 10,
+                tip: "Keep chest up and back flat, pull handle toward your mid-section, squeeze shoulder blades together."
+              },
+              {
+                name: "Biceps Curl",
+                sets: 3,
+                reps: 12,
+                tip: "Stand tall, elbows close to your sides, curl the weight up without swinging your body."
+              }
+            ]
           },
           {
             name: "Legs",
             exercises: [
-              { name: "Squats", sets: 3, reps: 10 },
-              { name: "Lunges", sets: 3, reps: 10 },
-              { name: "Calf Raises", sets: 3, reps: 15 },
-            ],
-          },
-        ],
+              {
+                name: "Squats",
+                sets: 3,
+                reps: 10,
+                tip: "Feet shoulder-width apart, sit back like you’re sitting in a chair, keep chest up and knees tracking over toes."
+              },
+              {
+                name: "Lunges",
+                sets: 3,
+                reps: 10,
+                tip: "Step forward, drop the back knee toward the floor, push through the front heel to stand."
+              },
+              {
+                name: "Calf Raises",
+                sets: 3,
+                reps: 15,
+                tip: "Stand tall, raise your heels as high as possible, pause, then lower under control."
+              }
+            ]
+          }
+        ]
       },
       full: {
         id: "full",
@@ -502,103 +637,188 @@
           {
             name: "Full Body A",
             exercises: [
-              { name: "Squat", sets: 3, reps: 8 },
-              { name: "Bench Press", sets: 3, reps: 8 },
-              { name: "Barbell Row", sets: 3, reps: 8 },
-            ],
+              {
+                name: "Squat",
+                sets: 3,
+                reps: 8,
+                tip: "Bar on your upper back, feet shoulder-width, sit down and back while keeping chest up."
+              },
+              {
+                name: "Bench Press",
+                sets: 3,
+                reps: 8,
+                tip: "Grip slightly wider than shoulders, lower under control, push the bar up and slightly back."
+              },
+              {
+                name: "Barbell Row",
+                sets: 3,
+                reps: 8,
+                tip: "Hinge at the hips, back flat, pull the bar toward your belly button, squeeze your back."
+              }
+            ]
           },
           {
             name: "Full Body B",
             exercises: [
-              { name: "Deadlift", sets: 3, reps: 5 },
-              { name: "Overhead Press", sets: 3, reps: 8 },
-              { name: "Lat Pulldown", sets: 3, reps: 10 },
-            ],
-          },
-        ],
-      },
+              {
+                name: "Deadlift",
+                sets: 3,
+                reps: 5,
+                tip: "Bar over mid-foot, hinge at hips and knees, keep back flat, push the floor away and stand tall."
+              },
+              {
+                name: "Overhead Press",
+                sets: 3,
+                reps: 8,
+                tip: "Press bar or dumbbells overhead while squeezing your glutes and keeping ribs down."
+              },
+              {
+                name: "Lat Pulldown",
+                sets: 3,
+                reps: 10,
+                tip: "Pull bar to upper chest, don’t swing or yank with momentum."
+              }
+            ]
+          }
+        ]
+      }
     };
 
-    // Focus groups (legs, back, etc.)
+    // Focus groups with up to 10 unique exercises each
     const GROUP_LIBRARY = {
       plan: {
         id: "plan",
         label: "Plan default",
-        exercises: [],
+        exercises: [] // uses PLAN_LIBRARY instead
       },
       legs: {
         id: "legs",
         label: "Legs",
         exercises: [
-          { name: "Back Squat", sets: 3, reps: 8 },
-          { name: "Leg Press", sets: 3, reps: 12 },
-          { name: "Romanian Deadlift", sets: 3, reps: 10 },
-          { name: "Walking Lunge", sets: 2, reps: 16 },
-        ],
+          { name: "Back Squat", sets: 3, reps: 8, tip: "Bar on your upper back, sit down and back, keep chest up." },
+          { name: "Front Squat", sets: 3, reps: 8, tip: "Bar in front rack position, keep elbows high and torso upright." },
+          { name: "Leg Press", sets: 3, reps: 12, tip: "Feet shoulder-width on platform, lower until knees are about 90°, then press." },
+          { name: "Romanian Deadlift", sets: 3, reps: 10, tip: "Slight knee bend, push hips back, feel stretch in hamstrings, keep back flat." },
+          { name: "Walking Lunge", sets: 2, reps: 16, tip: "Step forward and drop back knee, push through front heel and continue walking." },
+          { name: "Leg Curl", sets: 3, reps: 12, tip: "Control the weight both up and down, don’t arch your lower back." },
+          { name: "Leg Extension", sets: 3, reps: 12, tip: "Kick the pad up until legs are almost straight, squeeze quads at the top." },
+          { name: "Bulgarian Split Squat", sets: 3, reps: 10, tip: "Back foot on bench, drop straight down, push through front heel." },
+          { name: "Calf Raise (Standing)", sets: 3, reps: 15, tip: "Raise heels as high as possible, pause, then lower slowly." },
+          { name: "Calf Raise (Seated)", sets: 3, reps: 15, tip: "Focus on squeezing calves at the top of each rep." }
+        ]
       },
       back: {
         id: "back",
         label: "Back",
         exercises: [
-          { name: "Pull-ups / Assisted Pull-ups", sets: 3, reps: 8 },
-          { name: "Seated Cable Row", sets: 3, reps: 10 },
-          { name: "Single-arm Dumbbell Row", sets: 3, reps: 10 },
-        ],
+          { name: "Pull-ups / Assisted Pull-ups", sets: 3, reps: 8, tip: "Grip just wider than shoulders, pull chest to bar, control on the way down." },
+          { name: "Lat Pulldown (Wide Grip)", sets: 3, reps: 10, tip: "Pull bar to top of chest, keep chest up and elbows down." },
+          { name: "Seated Cable Row", sets: 3, reps: 10, tip: "Sit tall, pull handle to mid-stomach, squeeze shoulder blades together." },
+          { name: "Single-arm Dumbbell Row", sets: 3, reps: 10, tip: "Support one hand on bench, pull dumbbell toward hip, keep back flat." },
+          { name: "Chest-Supported Row", sets: 3, reps: 10, tip: "Lying on an incline bench, row dumbbells toward your ribs." },
+          { name: "Straight-arm Pulldown", sets: 3, reps: 12, tip: "Keep arms nearly straight, pull bar from above head to thighs using lats." },
+          { name: "Machine Row", sets: 3, reps: 10, tip: "Chest against pad, row handles toward your mid-section." },
+          { name: "Face Pull", sets: 3, reps: 12, tip: "Pull rope to your forehead, elbows high, squeeze rear delts." },
+          { name: "Inverted Row", sets: 3, reps: 8, tip: "Body straight under bar, pull chest toward bar." },
+          { name: "Band Pull-Apart", sets: 3, reps: 15, tip: "Arms straight, pull band apart by squeezing shoulder blades together." }
+        ]
       },
       chest: {
         id: "chest",
         label: "Chest",
         exercises: [
-          { name: "Flat Bench Press", sets: 3, reps: 8 },
-          { name: "Incline Dumbbell Press", sets: 3, reps: 10 },
-          { name: "Cable Fly", sets: 3, reps: 12 },
-        ],
+          { name: "Flat Bench Press", sets: 3, reps: 8, tip: "Grip slightly wider than shoulders, lower to mid chest, press up." },
+          { name: "Incline Bench Press", sets: 3, reps: 8, tip: "Bench at 30–45°, lower bar/dumbbells to upper chest." },
+          { name: "Dumbbell Bench Press", sets: 3, reps: 10, tip: "Keep wrists stacked over elbows, control the weight." },
+          { name: "Dumbbell Fly", sets: 3, reps: 12, tip: "Slight elbow bend, open arms wide, feel stretch in chest." },
+          { name: "Cable Fly (High to Low)", sets: 3, reps: 12, tip: "Start high, pull handles down and together in front of hips." },
+          { name: "Cable Fly (Low to High)", sets: 3, reps: 12, tip: "Start low, pull handles up and together in front of chest." },
+          { name: "Push-ups", sets: 3, reps: 12, tip: "Body in a straight line, chest to floor, push away." },
+          { name: "Machine Chest Press", sets: 3, reps: 10, tip: "Adjust seat so handles line up with mid-chest, press without locking elbows hard." },
+          { name: "Single-arm Cable Press", sets: 3, reps: 10, tip: "Step forward into a split stance, press cable forward, keep core tight." },
+          { name: "Deficit Push-ups", sets: 3, reps: 8, tip: "Hands on blocks or dumbbells, chest goes slightly lower than hands." }
+        ]
       },
       shoulders: {
         id: "shoulders",
         label: "Shoulders",
         exercises: [
-          { name: "Overhead Press", sets: 3, reps: 8 },
-          { name: "Lateral Raise", sets: 3, reps: 12 },
-          { name: "Rear Delt Fly", sets: 3, reps: 12 },
-        ],
+          { name: "Overhead Press", sets: 3, reps: 8, tip: "Press bar/dumbbells overhead, keep ribs down and glutes tight." },
+          { name: "Seated Dumbbell Press", sets: 3, reps: 8, tip: "Sit tall, avoid flaring elbows straight out." },
+          { name: "Lateral Raise", sets: 3, reps: 12, tip: "Raise dumbbells to the side slightly in front of body, thumbs just below pinkies." },
+          { name: "Front Raise", sets: 3, reps: 12, tip: "Lift dumbbells in front to shoulder height, don’t swing." },
+          { name: "Rear Delt Fly", sets: 3, reps: 12, tip: "Hinge forward, raise dumbbells out to the side, squeeze rear delts." },
+          { name: "Face Pull", sets: 3, reps: 12, tip: "Pull rope to face, elbows high, rotate thumbs back." },
+          { name: "Arnold Press", sets: 3, reps: 10, tip: "Start with palms facing you, rotate palms out as you press overhead." },
+          { name: "Machine Shoulder Press", sets: 3, reps: 10, tip: "Seat height so handles are about chin level at bottom." },
+          { name: "Cable Lateral Raise", sets: 3, reps: 12, tip: "Use cable at your side, raise until upper arm is parallel to floor." },
+          { name: "Upright Row (light)", sets: 3, reps: 10, tip: "Pull bar/rope to upper chest, elbows higher than wrists." }
+        ]
       },
       biceps: {
         id: "biceps",
         label: "Biceps",
         exercises: [
-          { name: "Barbell Curl", sets: 3, reps: 10 },
-          { name: "Hammer Curl", sets: 3, reps: 10 },
-          { name: "Cable Curl", sets: 3, reps: 12 },
-        ],
+          { name: "Barbell Curl", sets: 3, reps: 10, tip: "Keep elbows close to sides, curl without swinging torso." },
+          { name: "EZ-Bar Curl", sets: 3, reps: 10, tip: "Use a comfortable grip angle to spare wrists." },
+          { name: "Dumbbell Curl", sets: 3, reps: 10, tip: "Rotate palms up as you curl (supinate) for more biceps." },
+          { name: "Hammer Curl", sets: 3, reps: 10, tip: "Thumbs up grip, helps forearms and long head of biceps." },
+          { name: "Incline Dumbbell Curl", sets: 3, reps: 10, tip: "Lie back on an incline bench, let arms hang behind you slightly." },
+          { name: "Preacher Curl", sets: 3, reps: 10, tip: "Keep upper arm glued to pad, don’t bounce at the bottom." },
+          { name: "Cable Curl", sets: 3, reps: 12, tip: "Use constant tension, squeeze at the top." },
+          { name: "Reverse Curl", sets: 3, reps: 10, tip: "Overhand grip, target brachialis and forearms." },
+          { name: "Concentration Curl", sets: 3, reps: 10, tip: "Elbow pressed into inner thigh, curl slowly with full control." },
+          { name: "Spider Curl", sets: 3, reps: 10, tip: "Chest on an incline bench, let arms hang straight down and curl." }
+        ]
       },
       triceps: {
         id: "triceps",
         label: "Triceps",
         exercises: [
-          { name: "Close-grip Bench Press", sets: 3, reps: 8 },
-          { name: "Triceps Pushdown", sets: 3, reps: 12 },
-          { name: "Overhead Triceps Extension", sets: 3, reps: 12 },
-        ],
+          { name: "Close-grip Bench Press", sets: 3, reps: 8, tip: "Grip slightly inside shoulder width, keep elbows close to body." },
+          { name: "Dip (Assisted if needed)", sets: 3, reps: 8, tip: "Lean slightly forward, lower until elbows ~90°, press back up." },
+          { name: "Triceps Pushdown (Rope)", sets: 3, reps: 12, tip: "Flare rope apart at the bottom for extra squeeze." },
+          { name: "Overhead Triceps Extension", sets: 3, reps: 12, tip: "Elbows pointed up, lower dumbbell behind head, then extend." },
+          { name: "Skull Crusher", sets: 3, reps: 10, tip: "Lower bar/dumbbells toward forehead or behind head, keep elbows in." },
+          { name: "Bench Dip (feet on floor)", sets: 3, reps: 10, tip: "Hands on bench behind you, lower body down with elbows bending back." },
+          { name: "Cable Kickback", sets: 3, reps: 12, tip: "Hinge forward, keep upper arm fixed, extend elbow fully." },
+          { name: "Single-arm Cable Pushdown", sets: 3, reps: 12, tip: "Use one handle, keep elbow locked at your side." },
+          { name: "Diamond Push-ups", sets: 3, reps: 8, tip: "Hands close under chest, keep elbows near ribs." },
+          { name: "Triceps Press Machine", sets: 3, reps: 10, tip: "Adjust seat so elbows line up with machine pivot." }
+        ]
       },
       core: {
         id: "core",
         label: "Core",
         exercises: [
-          { name: "Plank", sets: 3, reps: 30 },
-          { name: "Hanging Knee Raise", sets: 3, reps: 12 },
-          { name: "Cable Woodchop", sets: 3, reps: 12 },
-        ],
+          { name: "Plank", sets: 3, reps: 30, tip: "Elbows under shoulders, body in a straight line, squeeze glutes." },
+          { name: "Side Plank", sets: 3, reps: 20, tip: "Stack feet, lift hips, keep body in a straight line." },
+          { name: "Hanging Knee Raise", sets: 3, reps: 12, tip: "Don’t swing; lift knees by curling pelvis up." },
+          { name: "Cable Woodchop", sets: 3, reps: 12, tip: "Rotate torso, don’t just move your arms." },
+          { name: "Ab Wheel Rollout", sets: 3, reps: 8, tip: "Keep core braced, roll only as far as you can without sagging." },
+          { name: "Dead Bug", sets: 3, reps: 10, tip: "Lower opposite arm/leg while keeping low back pressed to floor." },
+          { name: "Russian Twist", sets: 3, reps: 20, tip: "Rotate from your torso, not just your arms." },
+          { name: "Reverse Crunch", sets: 3, reps: 12, tip: "Curl hips off bench/floor, don’t just swing legs." },
+          { name: "Cable Crunch", sets: 3, reps: 12, tip: "Think about curling ribs toward hips, not just pulling with arms." },
+          { name: "Stability-Ball Crunch", sets: 3, reps: 15, tip: "Lower back draped over ball, curl up through your abs." }
+        ]
       },
       cardio: {
         id: "cardio",
         label: "Cardio",
         exercises: [
-          { name: "Treadmill (moderate)", sets: 1, reps: 15 },
-          { name: "Bike (moderate)", sets: 1, reps: 15 },
-          { name: "Rowing Machine", sets: 1, reps: 10 },
-        ],
-      },
+          { name: "Treadmill Walk (Incline)", sets: 1, reps: 15, tip: "Brisk walk at slight incline, focus on steady breathing." },
+          { name: "Treadmill Jog", sets: 1, reps: 10, tip: "Comfortable pace where you can still talk in short sentences." },
+          { name: "Bike (Moderate)", sets: 1, reps: 15, tip: "Keep RPM steady, adjust resistance so legs work but don’t burn out instantly." },
+          { name: "Rowing Machine", sets: 1, reps: 10, tip: "Legs drive first, then lean back slightly, finish with arms." },
+          { name: "Stair Climber", sets: 1, reps: 10, tip: "Stand tall, don’t lean heavily on the rails." },
+          { name: "Battle Ropes", sets: 1, reps: 1, tip: "Short, powerful waves; keep core tight and knees slightly bent." },
+          { name: "Elliptical", sets: 1, reps: 15, tip: "Smooth, gliding motion, moderate resistance." },
+          { name: "Incline Walk Intervals", sets: 1, reps: 10, tip: "Alternate 1 min moderate, 1 min easier pace." },
+          { name: "Bike Sprints", sets: 1, reps: 8, tip: "Short 15–20s hard pushes, then easy pedaling to recover." },
+          { name: "Jump Rope", sets: 1, reps: 5, tip: "Small jumps, land softly, keep wrists doing most of the work." }
+        ]
+      }
     };
 
     const FOCUS_ORDER = [
@@ -610,10 +830,9 @@
       "biceps",
       "triceps",
       "core",
-      "cardio",
+      "cardio"
     ];
 
-    // --- Helpers ---
     function todayLocal() {
       return new Date();
     }
@@ -655,7 +874,7 @@
           completed: {},
           restEvery: 0,
           perDayTargets: {},
-          selectedFocus: {},
+          selectedFocus: {}
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
         return fresh;
@@ -712,7 +931,7 @@
     const tabs = {
       today: document.getElementById("tab-today"),
       history: document.getElementById("tab-history"),
-      settings: document.getElementById("tab-settings"),
+      settings: document.getElementById("tab-settings")
     };
 
     tabButtons.forEach((btn) => {
@@ -741,10 +960,34 @@
     const restoreButtonEl = document.getElementById("restoreButton");
     const resetButtonEl = document.getElementById("resetButton");
 
-    const focusRowEl = document.getElementById("focusRow");
     const focusSelectEl = document.getElementById("focusSelect");
     const exerciseCountRowEl = document.getElementById("exerciseCountRow");
     const exerciseCountSelectEl = document.getElementById("exerciseCountSelect");
+
+    const modalEl = document.getElementById("exerciseModal");
+    const modalTitleEl = document.getElementById("modalTitle");
+    const modalImageEl = document.getElementById("modalImage");
+    const modalTextEl = document.getElementById("modalText");
+    const modalCloseEl = document.getElementById("modalClose");
+
+    modalCloseEl.onclick = () => {
+      modalEl.classList.add("hidden");
+    };
+    modalEl.addEventListener("click", (e) => {
+      if (e.target === modalEl) {
+        modalEl.classList.add("hidden");
+      }
+    });
+
+    function showExerciseModal(ex) {
+      modalTitleEl.textContent = ex.name;
+      modalTextEl.textContent =
+        ex.tip || "Form tip coming soon. Focus on slow, controlled reps.";
+      const safeName = encodeURIComponent(ex.name.replace(/\s+/g, "+"));
+      modalImageEl.src =
+        "https://via.placeholder.com/320x200.png?text=" + safeName;
+      modalEl.classList.remove("hidden");
+    }
 
     // --- Focus helpers ---
     function getFocusForDate(dateKey) {
@@ -775,15 +1018,6 @@
       });
     }
 
-    function buildWorkoutList(baseExercises, desiredCount) {
-      const list = [];
-      if (!baseExercises || baseExercises.length === 0) return list;
-      for (let i = 0; i < desiredCount; i++) {
-        list.push(baseExercises[i % baseExercises.length]);
-      }
-      return list;
-    }
-
     // --- Today tab ---
     function renderToday() {
       const today = todayLocal();
@@ -794,7 +1028,7 @@
       todayMetaEl.textContent = `${today.toLocaleDateString(undefined, {
         weekday: "long",
         month: "short",
-        day: "numeric",
+        day: "numeric"
       })} • ${plan.name}`;
 
       exerciseListEl.innerHTML = "";
@@ -821,7 +1055,7 @@
         const li = document.createElement("li");
         li.className = "exercise-row";
         li.innerHTML =
-          '<span>Light walk, stretching, or full rest.</span><span class="badge">Optional</span>';
+          '<div class="exercise-main"><span class="exercise-name">Light walk, stretching, or full rest.</span><span class="badge">Optional</span></div>';
         exerciseListEl.appendChild(li);
 
         setupDoneButton(todayKey);
@@ -830,7 +1064,6 @@
       }
 
       if (info.type === "workout") {
-        // focus dropdown
         const focusId = getFocusForDate(todayKey);
         buildFocusOptions(focusId);
 
@@ -852,15 +1085,17 @@
           exerciseListEl.innerHTML = "";
         } else {
           const MAX_COUNT = 10;
+          const maxSelectable = Math.min(MAX_COUNT, baseExercises.length);
+
           state.perDayTargets = state.perDayTargets || {};
           let target = state.perDayTargets[todayKey];
-          if (!target || target < 1 || target > MAX_COUNT) {
-            target = Math.min(MAX_COUNT, baseExercises.length);
+          if (!target || target < 1 || target > maxSelectable) {
+            target = maxSelectable;
           }
 
           exerciseCountRowEl.style.display = "flex";
           exerciseCountSelectEl.innerHTML = "";
-          for (let i = 1; i <= MAX_COUNT; i++) {
+          for (let i = 1; i <= maxSelectable; i++) {
             const opt = document.createElement("option");
             opt.value = i;
             opt.textContent = i;
@@ -869,17 +1104,43 @@
           }
 
           exerciseCountSelectEl.onchange = () => {
-            const val = parseInt(exerciseCountSelectEl.value, 10) || MAX_COUNT;
-            state.perDayTargets[todayKey] = Math.max(1, Math.min(MAX_COUNT, val));
+            const val =
+              parseInt(exerciseCountSelectEl.value, 10) || maxSelectable;
+            state.perDayTargets[todayKey] = Math.max(
+              1,
+              Math.min(maxSelectable, val)
+            );
             saveData(state);
             renderToday();
           };
 
-          const list = buildWorkoutList(baseExercises, target);
+          const list = baseExercises.slice(0, target); // no repeats
           list.forEach((ex) => {
             const li = document.createElement("li");
             li.className = "exercise-row";
-            li.innerHTML = `<span>${ex.name}</span><span class="badge">${ex.sets} × ${ex.reps}</span>`;
+
+            const main = document.createElement("div");
+            main.className = "exercise-main";
+
+            const nameSpan = document.createElement("span");
+            nameSpan.className = "exercise-name";
+            nameSpan.textContent = ex.name;
+
+            const badgeSpan = document.createElement("span");
+            badgeSpan.className = "badge";
+            badgeSpan.textContent = `${ex.sets} × ${ex.reps}`;
+
+            main.appendChild(nameSpan);
+            main.appendChild(badgeSpan);
+
+            const infoBtn = document.createElement("button");
+            infoBtn.type = "button";
+            infoBtn.className = "info-btn";
+            infoBtn.textContent = "WTF?";
+            infoBtn.onclick = () => showExerciseModal(ex);
+
+            li.appendChild(main);
+            li.appendChild(infoBtn);
             exerciseListEl.appendChild(li);
           });
         }
@@ -966,7 +1227,7 @@
         const label = document.createElement("div");
         label.className = "graph-label";
         label.textContent = d.date.toLocaleDateString(undefined, {
-          weekday: "short",
+          weekday: "short"
         })[0];
 
         wrap.appendChild(bar);
@@ -997,7 +1258,7 @@
           labelMain.textContent = d.date.toLocaleDateString(undefined, {
             weekday: "short",
             month: "short",
-            day: "numeric",
+            day: "numeric"
           });
 
           const labelSub = document.createElement("div");
@@ -1086,7 +1347,7 @@
           await navigator.clipboard.writeText(data);
           alert("Backup JSON copied to clipboard.");
         } else {
-          alert("Clipboard API not available. JSON in the text box instead.");
+          alert("Clipboard API not available. JSON placed in the box instead.");
           restoreInputEl.value = data;
         }
       } catch {
@@ -1126,7 +1387,7 @@
       renderAll();
     });
 
-    // --- Initial render ---
+    // Initial render
     renderAll();
   </script>
 </body>
