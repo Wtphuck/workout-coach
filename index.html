@@ -197,41 +197,8 @@
       font-weight: 600;
     }
 
-    /* Focus groups row */
-    .group-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-top: 6px;
-      flex-wrap: wrap;
-    }
-
-    .chip-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      justify-content: flex-end;
-    }
-
-    .chip {
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid var(--border-soft);
-      background: #020617;
-      color: var(--text-subtle);
-      font-size: 0.75rem;
-      cursor: pointer;
-    }
-
-    .chip.active {
-      background: var(--accent-soft);
-      color: #022c22;
-      border-color: transparent;
-    }
-
-    /* Exercise count row */
-    .exercise-count-row {
+    /* Focus + exercise count rows */
+    .row-inline {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -241,7 +208,7 @@
 
     .inline-select {
       width: auto;
-      min-width: 70px;
+      min-width: 90px;
       padding: 4px 8px;
       border-radius: 999px;
       border: 1px solid var(--border-soft);
@@ -400,12 +367,12 @@
       <div id="tab-today" class="tab active">
         <div id="todayMeta" class="small-text"></div>
 
-        <div id="groupSelectorRow" class="group-row">
+        <div id="focusRow" class="row-inline">
           <span class="small-text">Focus today:</span>
-          <div id="groupChips" class="chip-container"></div>
+          <select id="focusSelect" class="inline-select"></select>
         </div>
 
-        <div id="exerciseCountRow" class="exercise-count-row" style="display:none;">
+        <div id="exerciseCountRow" class="row-inline" style="display:none;">
           <span class="small-text">Exercises to do:</span>
           <select id="exerciseCountSelect" class="inline-select"></select>
         </div>
@@ -437,7 +404,8 @@
             <option value="full">Full Body A / B (2-day split)</option>
           </select>
           <div class="small-text">
-            Changing the plan sets the default workout if you haven’t chosen a focus for the day.
+            If focus = "Plan default", this decides whether today is Push / Pull / Legs,
+            or Full Body A / B.
           </div>
         </div>
 
@@ -493,10 +461,9 @@
   </div>
 
   <script>
-    // ---------- CONSTANTS ----------
     const STORAGE_KEY = "wc_v2_data";
 
-    // Plans (default rotation when you don't pick focus groups)
+    // Default rotation plans (used when focus = plan)
     const PLAN_LIBRARY = {
       ppl: {
         id: "ppl",
@@ -552,8 +519,13 @@
       },
     };
 
-    // Focus groups -> specific exercise lists
+    // Focus groups (legs, back, etc.)
     const GROUP_LIBRARY = {
+      plan: {
+        id: "plan",
+        label: "Plan default",
+        exercises: [],
+      },
       legs: {
         id: "legs",
         label: "Legs",
@@ -629,7 +601,8 @@
       },
     };
 
-    const GROUP_ORDER = [
+    const FOCUS_ORDER = [
+      "plan",
       "legs",
       "back",
       "chest",
@@ -640,7 +613,7 @@
       "cardio",
     ];
 
-    // ---------- HELPERS ----------
+    // --- Helpers ---
     function todayLocal() {
       return new Date();
     }
@@ -672,7 +645,7 @@
         if (!parsed.completed) parsed.completed = {};
         if (!parsed.restEvery) parsed.restEvery = 0;
         if (!parsed.perDayTargets) parsed.perDayTargets = {};
-        if (!parsed.selectedGroups) parsed.selectedGroups = {};
+        if (!parsed.selectedFocus) parsed.selectedFocus = {};
         return parsed;
       } catch {
         const todayIso = formatDateKey(todayLocal());
@@ -682,7 +655,7 @@
           completed: {},
           restEvery: 0,
           perDayTargets: {},
-          selectedGroups: {},
+          selectedFocus: {},
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
         return fresh;
@@ -692,6 +665,8 @@
     function saveData(data) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
+
+    let state = loadData();
 
     function getPlan() {
       return PLAN_LIBRARY[state.planId] || PLAN_LIBRARY["ppl"];
@@ -732,10 +707,7 @@
       return { type: "workout", workout: plan.days[idx] };
     }
 
-    // ---------- STATE ----------
-    let state = loadData();
-
-    // ---------- UI ELEMENTS ----------
+    // --- UI elements ---
     const tabButtons = document.querySelectorAll(".tab-btn");
     const tabs = {
       today: document.getElementById("tab-today"),
@@ -769,64 +741,50 @@
     const restoreButtonEl = document.getElementById("restoreButton");
     const resetButtonEl = document.getElementById("resetButton");
 
-    const groupSelectorRowEl = document.getElementById("groupSelectorRow");
-    const groupChipsEl = document.getElementById("groupChips");
+    const focusRowEl = document.getElementById("focusRow");
+    const focusSelectEl = document.getElementById("focusSelect");
     const exerciseCountRowEl = document.getElementById("exerciseCountRow");
     const exerciseCountSelectEl = document.getElementById("exerciseCountSelect");
 
-    // ---------- GROUP HELPERS ----------
-    function getSelectedGroupsForDate(dateKey) {
-      state.selectedGroups = state.selectedGroups || {};
-      return state.selectedGroups[dateKey] || [];
+    // --- Focus helpers ---
+    function getFocusForDate(dateKey) {
+      state.selectedFocus = state.selectedFocus || {};
+      return state.selectedFocus[dateKey] || "plan";
     }
 
-    function setSelectedGroupsForDate(dateKey, groups) {
-      state.selectedGroups = state.selectedGroups || {};
-      state.selectedGroups[dateKey] = groups;
+    function setFocusForDate(dateKey, focusId) {
+      state.selectedFocus = state.selectedFocus || {};
+      if (focusId === "plan") {
+        delete state.selectedFocus[dateKey];
+      } else {
+        state.selectedFocus[dateKey] = focusId;
+      }
       saveData(state);
     }
 
-    function buildExercisePool(baseWorkout, groups) {
-      if (groups && groups.length > 0) {
-        let pool = [];
-        groups.forEach((id) => {
-          const def = GROUP_LIBRARY[id];
-          if (def) {
-            pool = pool.concat(def.exercises);
-          }
-        });
-        if (pool.length > 0) return pool;
-      }
-      return baseWorkout ? baseWorkout.exercises.slice() : [];
-    }
-
-    function renderGroupChips(dateKey) {
-      const selected = getSelectedGroupsForDate(dateKey);
-      groupChipsEl.innerHTML = "";
-
-      GROUP_ORDER.forEach((id) => {
+    function buildFocusOptions(selectedId) {
+      focusSelectEl.innerHTML = "";
+      FOCUS_ORDER.forEach((id) => {
         const def = GROUP_LIBRARY[id];
         if (!def) return;
-        const chip = document.createElement("button");
-        chip.type = "button";
-        chip.className = "chip" + (selected.includes(id) ? " active" : "");
-        chip.textContent = def.label;
-        chip.onclick = () => {
-          const current = getSelectedGroupsForDate(dateKey).slice();
-          const idx = current.indexOf(id);
-          if (idx >= 0) {
-            current.splice(idx, 1);
-          } else {
-            current.push(id);
-          }
-          setSelectedGroupsForDate(dateKey, current);
-          renderToday(); // only refresh today's view
-        };
-        groupChipsEl.appendChild(chip);
+        const opt = document.createElement("option");
+        opt.value = id;
+        opt.textContent = def.label;
+        if (id === selectedId) opt.selected = true;
+        focusSelectEl.appendChild(opt);
       });
     }
 
-    // ---------- TODAY ----------
+    function buildWorkoutList(baseExercises, desiredCount) {
+      const list = [];
+      if (!baseExercises || baseExercises.length === 0) return list;
+      for (let i = 0; i < desiredCount; i++) {
+        list.push(baseExercises[i % baseExercises.length]);
+      }
+      return list;
+    }
+
+    // --- Today tab ---
     function renderToday() {
       const today = todayLocal();
       const todayKey = formatDateKey(today);
@@ -840,7 +798,6 @@
       })} • ${plan.name}`;
 
       exerciseListEl.innerHTML = "";
-      groupSelectorRowEl.style.display = "none";
       exerciseCountRowEl.style.display = "none";
 
       if (info.type === "prestart") {
@@ -867,60 +824,43 @@
           '<span>Light walk, stretching, or full rest.</span><span class="badge">Optional</span>';
         exerciseListEl.appendChild(li);
 
-        doneButtonEl.textContent = "Mark as done";
-        doneButtonEl.classList.remove("done");
-        doneButtonEl.onclick = () => {
-          const isDone = !!state.completed[todayKey];
-          if (isDone) {
-            delete state.completed[todayKey];
-          } else {
-            state.completed[todayKey] = true;
-          }
-          saveData(state);
-          renderAll();
-        };
-
-        const streak = computeStreak();
-        if (streak > 0) {
-          streakTextEl.innerHTML = `Current streak: <span class="streak-strong">${streak} day${
-            streak === 1 ? "" : "s"
-          }</span>`;
-        } else {
-          streakTextEl.textContent =
-            "No current streak yet. Today’s a good day to start!";
-        }
+        setupDoneButton(todayKey);
+        updateStreak();
         return;
       }
 
       if (info.type === "workout") {
-        groupSelectorRowEl.style.display = "flex";
-        renderGroupChips(todayKey);
+        // focus dropdown
+        const focusId = getFocusForDate(todayKey);
+        buildFocusOptions(focusId);
 
-        const selectedGroups = getSelectedGroupsForDate(todayKey);
-        const pool = buildExercisePool(info.workout, selectedGroups);
+        focusSelectEl.onchange = () => {
+          setFocusForDate(todayKey, focusSelectEl.value);
+          renderToday();
+        };
 
-        if (selectedGroups.length > 0) {
-          const labels = selectedGroups
-            .map((id) => GROUP_LIBRARY[id]?.label || "")
-            .filter(Boolean);
-          todayNameEl.textContent =
-            "Custom: " + labels.join(" + ");
-        } else {
+        let baseExercises = [];
+        if (focusId === "plan" || !GROUP_LIBRARY[focusId]) {
           todayNameEl.textContent = info.workout.name;
+          baseExercises = info.workout.exercises.slice();
+        } else {
+          todayNameEl.textContent = GROUP_LIBRARY[focusId].label;
+          baseExercises = GROUP_LIBRARY[focusId].exercises.slice();
         }
 
-        const totalAvailable = pool.length;
-        if (totalAvailable > 0) {
-          const maxSelectable = Math.min(10, totalAvailable);
+        if (!baseExercises || baseExercises.length === 0) {
+          exerciseListEl.innerHTML = "";
+        } else {
+          const MAX_COUNT = 10;
           state.perDayTargets = state.perDayTargets || {};
           let target = state.perDayTargets[todayKey];
-          if (!target || target < 1 || target > maxSelectable) {
-            target = maxSelectable;
+          if (!target || target < 1 || target > MAX_COUNT) {
+            target = Math.min(MAX_COUNT, baseExercises.length);
           }
 
           exerciseCountRowEl.style.display = "flex";
           exerciseCountSelectEl.innerHTML = "";
-          for (let i = 1; i <= maxSelectable; i++) {
+          for (let i = 1; i <= MAX_COUNT; i++) {
             const opt = document.createElement("option");
             opt.value = i;
             opt.textContent = i;
@@ -929,26 +869,27 @@
           }
 
           exerciseCountSelectEl.onchange = () => {
-            const val = parseInt(exerciseCountSelectEl.value, 10) || maxSelectable;
-            state.perDayTargets[todayKey] = Math.max(
-              1,
-              Math.min(maxSelectable, val)
-            );
+            const val = parseInt(exerciseCountSelectEl.value, 10) || MAX_COUNT;
+            state.perDayTargets[todayKey] = Math.max(1, Math.min(MAX_COUNT, val));
             saveData(state);
             renderToday();
           };
 
-          pool.slice(0, target).forEach((ex) => {
+          const list = buildWorkoutList(baseExercises, target);
+          list.forEach((ex) => {
             const li = document.createElement("li");
             li.className = "exercise-row";
             li.innerHTML = `<span>${ex.name}</span><span class="badge">${ex.sets} × ${ex.reps}</span>`;
             exerciseListEl.appendChild(li);
           });
-        } else {
-          todayNameEl.textContent = "No exercises defined for today.";
         }
       }
 
+      setupDoneButton(todayKey);
+      updateStreak();
+    }
+
+    function setupDoneButton(todayKey) {
       const isDone = !!state.completed[todayKey];
       if (isDone) {
         doneButtonEl.textContent = "Completed ✔";
@@ -968,16 +909,6 @@
         saveData(state);
         renderAll();
       };
-
-      const streak = computeStreak();
-      if (streak > 0) {
-        streakTextEl.innerHTML = `Current streak: <span class="streak-strong">${streak} day${
-          streak === 1 ? "" : "s"
-        }</span>`;
-      } else {
-        streakTextEl.textContent =
-          "No current streak yet. Today’s a good day to start!";
-      }
     }
 
     function computeStreak() {
@@ -995,7 +926,19 @@
       return streak;
     }
 
-    // ---------- HISTORY ----------
+    function updateStreak() {
+      const streak = computeStreak();
+      if (streak > 0) {
+        streakTextEl.innerHTML = `Current streak: <span class="streak-strong">${streak} day${
+          streak === 1 ? "" : "s"
+        }</span>`;
+      } else {
+        streakTextEl.textContent =
+          "No current streak yet. Today’s a good day to start!";
+      }
+    }
+
+    // --- History ---
     function renderHistory() {
       const today = dateOnly(todayLocal());
       const days = [];
@@ -1096,7 +1039,7 @@
         });
     }
 
-    // ---------- SETTINGS ----------
+    // --- Settings ---
     function renderSettings() {
       planSelectEl.value = state.planId || "ppl";
       startDateInputEl.value =
@@ -1143,14 +1086,12 @@
           await navigator.clipboard.writeText(data);
           alert("Backup JSON copied to clipboard.");
         } else {
-          alert("Clipboard API not available. Manually copy from the textarea.");
+          alert("Clipboard API not available. JSON in the text box instead.");
           restoreInputEl.value = data;
         }
       } catch {
         restoreInputEl.value = data;
-        alert(
-          "Could not copy automatically. Backup JSON placed in the box instead."
-        );
+        alert("Could not copy automatically. Backup JSON placed in box.");
       }
     });
 
@@ -1172,21 +1113,20 @@
         state = loadData();
         renderAll();
         alert("Backup restored.");
-      } catch (e) {
+      } catch {
         alert("Backup JSON is invalid.");
       }
     });
 
     resetButtonEl.addEventListener("click", () => {
-      if (!confirm("Clear completion history but keep plan & start date?")) {
+      if (!confirm("Clear completion history but keep plan & start date?"))
         return;
-      }
       state.completed = {};
       saveData(state);
       renderAll();
     });
 
-    // ---------- INITIAL RENDER ----------
+    // --- Initial render ---
     renderAll();
   </script>
 </body>
