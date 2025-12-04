@@ -11,349 +11,382 @@
   <meta name="apple-mobile-web-app-title" content="Workout Coach" />
 
   <style>
-   :root {
-  --bg: #020617;
-  --bg-card: #020617;
-  --bg-card-alt: #020617;
-  --accent: #22c55e;
-  --accent-soft: #4ade80;
-  --accent-muted: #111827;
-  --text: #e5e7eb;
-  --text-subtle: #9ca3af;
-  --danger: #ef4444;
-  --border-soft: #1f2937;
-}
+    :root {
+      --bg: #020617;
+      --bg-card: #020617;
+      --accent: #22c55e;
+      --accent-soft: #4ade80;
+      --accent-muted: #111827;
+      --text: #e5e7eb;
+      --text-subtle: #9ca3af;
+      --danger: #ef4444;
+      --border-soft: #1f2937;
+    }
 
-* {
-  box-sizing: border-box;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #020617; /* solid dark background */
-  color: var(--text);
-}
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #020617;
+      color: var(--text);
+    }
 
-.app {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 16px;
-  min-height: 100vh;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-}
+    .app {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
 
-.card {
-  width: 100%;
-  background: #020617;
-  border-radius: 16px;
-  padding: 16px 16px 18px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
-  border: 1px solid #111827;
-}
+    .card {
+      width: 100%;
+      background: #020617;
+      border-radius: 16px;
+      padding: 16px 16px 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+      border: 1px solid #111827;
+    }
 
-h1 {
-  font-size: 1.4rem;
-  margin: 0 0 2px;
-}
+    h1 {
+      font-size: 1.4rem;
+      margin: 0 0 2px;
+    }
 
-.subtitle {
-  font-size: 0.8rem;
-  color: var(--text-subtle);
-  margin-bottom: 10px;
-}
+    .subtitle {
+      font-size: 0.8rem;
+      color: var(--text-subtle);
+      margin-bottom: 10px;
+    }
 
-/* Tabs */
-.tabs {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 12px;
-}
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
 
-.tab-btn {
-  flex: 1;
-  padding: 6px 8px;
-  border-radius: 999px;
-  border: 1px solid #1f2937;
-  background: #020617;
-  color: var(--text-subtle);
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-}
+    .tab-btn {
+      flex: 1;
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: var(--text-subtle);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
 
-.tab-btn.active {
-  background: var(--accent-soft);
-  color: #022c22;
-  border-color: transparent;
-}
+    .tab-btn.active {
+      background: var(--accent-soft);
+      color: #022c22;
+      border-color: transparent;
+    }
 
-.tab {
-  display: none;
-}
+    .tab {
+      display: none;
+    }
 
-.tab.active {
-  display: block;
-}
+    .tab.active {
+      display: block;
+    }
 
-h2 {
-  font-size: 1.1rem;
-  margin: 4px 0 8px;
-  color: #c4b5fd;
-}
+    h2 {
+      font-size: 1.1rem;
+      margin: 4px 0 8px;
+      color: #c4b5fd;
+    }
 
-h3 {
-  font-size: 0.95rem;
-  margin: 14px 0 6px;
-  color: #bfdbfe;
-}
+    h3 {
+      font-size: 0.95rem;
+      margin: 14px 0 6px;
+      color: #bfdbfe;
+    }
 
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 8px 0;
-}
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0;
+    }
 
-li.exercise-row {
-  padding: 7px 9px;
-  border-radius: 10px;
-  background: #020617;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
-  font-size: 0.9rem;
-  border: 1px solid var(--border-soft);
-}
+    li.exercise-row {
+      padding: 7px 9px;
+      border-radius: 10px;
+      background: #020617;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+      border: 1px solid var(--border-soft);
+    }
 
-.badge {
-  font-size: 0.8rem;
-  opacity: 0.8;
-}
+    .badge {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
 
-/* Buttons */
-button.primary {
-  width: 100%;
-  margin-top: 10px;
-  padding: 9px;
-  border-radius: 999px;
-  border: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  background: var(--accent);
-  color: #022c22;
-  transition: transform 0.08s ease, box-shadow 0.08s ease;
-}
+    /* Buttons */
+    button.primary {
+      width: 100%;
+      margin-top: 10px;
+      padding: 9px;
+      border-radius: 999px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      background: var(--accent);
+      color: #022c22;
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+    }
 
-button.primary.done {
-  background: #111827;
-  color: var(--text);
-}
+    button.primary.done {
+      background: #111827;
+      color: var(--text);
+    }
 
-button.primary:active {
-  transform: scale(0.97);
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-}
+    button.primary:active {
+      transform: scale(0.97);
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
 
-button.secondary {
-  width: 100%;
-  margin-top: 8px;
-  padding: 7px;
-  border-radius: 999px;
-  border: none;
-  font-size: 0.85rem;
-  cursor: pointer;
-  background: var(--accent-muted);
-  color: var(--text);
-}
+    button.secondary {
+      width: 100%;
+      margin-top: 8px;
+      padding: 7px;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.85rem;
+      cursor: pointer;
+      background: var(--accent-muted);
+      color: var(--text);
+    }
 
-button.small {
-  padding: 4px 9px;
-  border-radius: 999px;
-  border: 1px solid var(--border-soft);
-  background: #020617;
-  color: var(--text-subtle);
-  font-size: 0.75rem;
-  cursor: pointer;
-}
+    button.small {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #020617;
+      color: var(--text-subtle);
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
 
-.small-text {
-  font-size: 0.78rem;
-  color: var(--text-subtle);
-  margin-top: 8px;
-}
+    .small-text {
+      font-size: 0.78rem;
+      color: var(--text-subtle);
+      margin-top: 8px;
+    }
 
-/* Streak / pills */
-.streak {
-  margin-top: 6px;
-  font-size: 0.88rem;
-}
+    .streak {
+      margin-top: 6px;
+      font-size: 0.88rem;
+    }
 
-.streak-strong {
-  color: var(--accent-soft);
-  font-weight: 600;
-}
+    .streak-strong {
+      color: var(--accent-soft);
+      font-weight: 600;
+    }
 
-/* History rows */
-.status-row {
-  padding: 6px 9px;
-  background: #020617;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 5px;
-  border: 1px solid var(--border-soft);
-  font-size: 0.87rem;
-}
+    /* Focus groups row */
+    .group-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
 
-.status-left {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
+    .chip-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      justify-content: flex-end;
+    }
 
-.status-icon {
-  font-size: 0.95rem;
-  width: 1.4rem;
-  text-align: center;
-}
+    .chip {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #020617;
+      color: var(--text-subtle);
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
 
-.status-label {
-  font-weight: 500;
-}
+    .chip.active {
+      background: var(--accent-soft);
+      color: #022c22;
+      border-color: transparent;
+    }
 
-.status-sub {
-  font-size: 0.78rem;
-  color: var(--text-subtle);
-}
+    /* Exercise count row */
+    .exercise-count-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 6px;
+    }
 
-.status-complete {
-  color: var(--accent-soft);
-}
+    .inline-select {
+      width: auto;
+      min-width: 70px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #020617;
+      color: var(--text);
+      font-size: 0.8rem;
+    }
 
-.status-missed {
-  color: var(--danger);
-}
+    /* History rows */
+    .status-row {
+      padding: 6px 9px;
+      background: #020617;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      border: 1px solid var(--border-soft);
+      font-size: 0.87rem;
+    }
 
-/* Graph */
-.graph {
-  display: flex;
-  align-items: flex-end;
-  gap: 6px;
-  height: 60px;
-  margin: 8px 0 3px;
-}
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-.graph-bar-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    .status-icon {
+      font-size: 0.95rem;
+      width: 1.4rem;
+      text-align: center;
+    }
 
-.graph-bar {
-  width: 12px;
-  border-radius: 999px 999px 0 0;
-  background: #111827;
-  position: relative;
-  overflow: hidden;
-}
+    .status-label {
+      font-weight: 500;
+    }
 
-.graph-bar-fill {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: var(--accent-soft);
-}
+    .status-sub {
+      font-size: 0.78rem;
+      color: var(--text-subtle);
+    }
 
-.graph-label {
-  font-size: 0.7rem;
-  margin-top: 2px;
-  color: var(--text-subtle);
-}
+    .status-complete {
+      color: var(--accent-soft);
+    }
 
-/* Settings */
-.settings-group {
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #111827;
-}
+    .status-missed {
+      color: var(--danger);
+    }
 
-.settings-group:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
+    /* Graph */
+    .graph {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 60px;
+      margin: 8px 0 3px;
+    }
 
-.settings-label {
-  font-size: 0.8rem;
-  color: var(--text-subtle);
-  margin-bottom: 3px;
-}
+    .graph-bar-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-select,
-input[type="date"],
-textarea {
-  width: 100%;
-  padding: 6px 8px;
-  border-radius: 10px;
-  border: 1px solid var(--border-soft);
-  background: #020617;
-  color: var(--text);
-  font-size: 0.88rem;
-  font-family: inherit;
-}
+    .graph-bar {
+      width: 12px;
+      border-radius: 999px 999px 0 0;
+      background: #111827;
+      position: relative;
+      overflow: hidden;
+    }
 
-textarea {
-  resize: vertical;
-  min-height: 70px;
-}
+    .graph-bar-fill {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--accent-soft);
+    }
 
-.danger-text {
-  color: var(--danger);
-  font-size: 0.78rem;
-  margin-top: 3px;
-}
-.exercise-count-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-top: 6px;
-}
+    .graph-label {
+      font-size: 0.7rem;
+      margin-top: 2px;
+      color: var(--text-subtle);
+    }
 
-.inline-select {
-  width: auto;
-  min-width: 70px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  border: 1px solid var(--border-soft);
-  background: #020617;
-  color: var(--text);
-  font-size: 0.8rem;
-}
-    
-@media (max-width: 480px) {
-  .app {
-    padding: 12px;
-  }
-  .card {
-    padding: 14px;
-  }
-}
+    /* Settings */
+    .settings-group {
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #111827;
+    }
+
+    .settings-group:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .settings-label {
+      font-size: 0.8rem;
+      color: var(--text-subtle);
+      margin-bottom: 3px;
+    }
+
+    select,
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      background: #020617;
+      color: var(--text);
+      font-size: 0.88rem;
+      font-family: inherit;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .danger-text {
+      color: var(--danger);
+      font-size: 0.78rem;
+      margin-top: 3px;
+    }
+
+    @media (max-width: 480px) {
+      .app {
+        padding: 12px;
+      }
+      .card {
+        padding: 14px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="app">
     <div class="card">
       <h1>Workout Coach</h1>
-      <div class="subtitle" id="subtitleText">
+      <div class="subtitle">
         Lightweight offline workout tracker. Data stays on your device.
       </div>
 
@@ -367,8 +400,13 @@ textarea {
       <div id="tab-today" class="tab active">
         <div id="todayMeta" class="small-text"></div>
 
-        <div id="exerciseCountRow" class="exercise-count-row">
-          <span class="small-text">Exercises today:</span>
+        <div id="groupSelectorRow" class="group-row">
+          <span class="small-text">Focus today:</span>
+          <div id="groupChips" class="chip-container"></div>
+        </div>
+
+        <div id="exerciseCountRow" class="exercise-count-row" style="display:none;">
+          <span class="small-text">Exercises to do:</span>
           <select id="exerciseCountSelect" class="inline-select"></select>
         </div>
 
@@ -399,7 +437,7 @@ textarea {
             <option value="full">Full Body A / B (2-day split)</option>
           </select>
           <div class="small-text">
-            Changing the plan doesn’t reset your history.
+            Changing the plan sets the default workout if you haven’t chosen a focus for the day.
           </div>
         </div>
 
@@ -455,9 +493,10 @@ textarea {
   </div>
 
   <script>
-    // ---------- DATA MODEL ----------
+    // ---------- CONSTANTS ----------
     const STORAGE_KEY = "wc_v2_data";
 
+    // Plans (default rotation when you don't pick focus groups)
     const PLAN_LIBRARY = {
       ppl: {
         id: "ppl",
@@ -513,6 +552,95 @@ textarea {
       },
     };
 
+    // Focus groups -> specific exercise lists
+    const GROUP_LIBRARY = {
+      legs: {
+        id: "legs",
+        label: "Legs",
+        exercises: [
+          { name: "Back Squat", sets: 3, reps: 8 },
+          { name: "Leg Press", sets: 3, reps: 12 },
+          { name: "Romanian Deadlift", sets: 3, reps: 10 },
+          { name: "Walking Lunge", sets: 2, reps: 16 },
+        ],
+      },
+      back: {
+        id: "back",
+        label: "Back",
+        exercises: [
+          { name: "Pull-ups / Assisted Pull-ups", sets: 3, reps: 8 },
+          { name: "Seated Cable Row", sets: 3, reps: 10 },
+          { name: "Single-arm Dumbbell Row", sets: 3, reps: 10 },
+        ],
+      },
+      chest: {
+        id: "chest",
+        label: "Chest",
+        exercises: [
+          { name: "Flat Bench Press", sets: 3, reps: 8 },
+          { name: "Incline Dumbbell Press", sets: 3, reps: 10 },
+          { name: "Cable Fly", sets: 3, reps: 12 },
+        ],
+      },
+      shoulders: {
+        id: "shoulders",
+        label: "Shoulders",
+        exercises: [
+          { name: "Overhead Press", sets: 3, reps: 8 },
+          { name: "Lateral Raise", sets: 3, reps: 12 },
+          { name: "Rear Delt Fly", sets: 3, reps: 12 },
+        ],
+      },
+      biceps: {
+        id: "biceps",
+        label: "Biceps",
+        exercises: [
+          { name: "Barbell Curl", sets: 3, reps: 10 },
+          { name: "Hammer Curl", sets: 3, reps: 10 },
+          { name: "Cable Curl", sets: 3, reps: 12 },
+        ],
+      },
+      triceps: {
+        id: "triceps",
+        label: "Triceps",
+        exercises: [
+          { name: "Close-grip Bench Press", sets: 3, reps: 8 },
+          { name: "Triceps Pushdown", sets: 3, reps: 12 },
+          { name: "Overhead Triceps Extension", sets: 3, reps: 12 },
+        ],
+      },
+      core: {
+        id: "core",
+        label: "Core",
+        exercises: [
+          { name: "Plank", sets: 3, reps: 30 },
+          { name: "Hanging Knee Raise", sets: 3, reps: 12 },
+          { name: "Cable Woodchop", sets: 3, reps: 12 },
+        ],
+      },
+      cardio: {
+        id: "cardio",
+        label: "Cardio",
+        exercises: [
+          { name: "Treadmill (moderate)", sets: 1, reps: 15 },
+          { name: "Bike (moderate)", sets: 1, reps: 15 },
+          { name: "Rowing Machine", sets: 1, reps: 10 },
+        ],
+      },
+    };
+
+    const GROUP_ORDER = [
+      "legs",
+      "back",
+      "chest",
+      "shoulders",
+      "biceps",
+      "triceps",
+      "core",
+      "cardio",
+    ];
+
+    // ---------- HELPERS ----------
     function todayLocal() {
       return new Date();
     }
@@ -522,7 +650,7 @@ textarea {
     }
 
     function formatDateKey(d) {
-      return d.toISOString().slice(0, 10); // yyyy-mm-dd
+      return d.toISOString().slice(0, 10);
     }
 
     function parseDateKey(key) {
@@ -539,20 +667,22 @@ textarea {
           parsed.planId = "ppl";
         }
         if (!parsed.startDateIso) {
-          parsed.startDateIso = todayLocal().toISOString().slice(0, 10);
+          parsed.startDateIso = formatDateKey(todayLocal());
         }
         if (!parsed.completed) parsed.completed = {};
         if (!parsed.restEvery) parsed.restEvery = 0;
-        if (!parsed.perDayTargets) parsed.perDayTargets = {}; // NEW: per-date exercise counts
+        if (!parsed.perDayTargets) parsed.perDayTargets = {};
+        if (!parsed.selectedGroups) parsed.selectedGroups = {};
         return parsed;
       } catch {
-        const todayIso = todayLocal().toISOString().slice(0, 10);
+        const todayIso = formatDateKey(todayLocal());
         const fresh = {
           planId: "ppl",
           startDateIso: todayIso,
           completed: {},
           restEvery: 0,
           perDayTargets: {},
+          selectedGroups: {},
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
         return fresh;
@@ -563,16 +693,15 @@ textarea {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
 
-    let state = loadData();
-
-    // ---------- PLAN LOGIC ----------
     function getPlan() {
       return PLAN_LIBRARY[state.planId] || PLAN_LIBRARY["ppl"];
     }
 
     function getDayInfo(date) {
       const plan = getPlan();
-      const start = parseDateKey(state.startDateIso || formatDateKey(todayLocal()));
+      const start = parseDateKey(
+        state.startDateIso || formatDateKey(todayLocal())
+      );
       const startOnly = dateOnly(start);
       const dOnly = dateOnly(date);
       const diffMs = dOnly - startOnly;
@@ -589,8 +718,8 @@ textarea {
       }
 
       const nonRestCycleLength = plan.days.length;
-
       let trainingDayIndex = diffDays;
+
       if (state.restEvery && state.restEvery > 0) {
         const restsSoFar = Math.floor((diffDays + 1) / state.restEvery);
         trainingDayIndex = diffDays - restsSoFar;
@@ -599,8 +728,12 @@ textarea {
       const idx =
         ((trainingDayIndex % nonRestCycleLength) + nonRestCycleLength) %
         nonRestCycleLength;
+
       return { type: "workout", workout: plan.days[idx] };
     }
+
+    // ---------- STATE ----------
+    let state = loadData();
 
     // ---------- UI ELEMENTS ----------
     const tabButtons = document.querySelectorAll(".tab-btn");
@@ -636,11 +769,64 @@ textarea {
     const restoreButtonEl = document.getElementById("restoreButton");
     const resetButtonEl = document.getElementById("resetButton");
 
-    // NEW: elements for exercise count selector
+    const groupSelectorRowEl = document.getElementById("groupSelectorRow");
+    const groupChipsEl = document.getElementById("groupChips");
     const exerciseCountRowEl = document.getElementById("exerciseCountRow");
     const exerciseCountSelectEl = document.getElementById("exerciseCountSelect");
 
-    // ---------- TODAY RENDER ----------
+    // ---------- GROUP HELPERS ----------
+    function getSelectedGroupsForDate(dateKey) {
+      state.selectedGroups = state.selectedGroups || {};
+      return state.selectedGroups[dateKey] || [];
+    }
+
+    function setSelectedGroupsForDate(dateKey, groups) {
+      state.selectedGroups = state.selectedGroups || {};
+      state.selectedGroups[dateKey] = groups;
+      saveData(state);
+    }
+
+    function buildExercisePool(baseWorkout, groups) {
+      if (groups && groups.length > 0) {
+        let pool = [];
+        groups.forEach((id) => {
+          const def = GROUP_LIBRARY[id];
+          if (def) {
+            pool = pool.concat(def.exercises);
+          }
+        });
+        if (pool.length > 0) return pool;
+      }
+      return baseWorkout ? baseWorkout.exercises.slice() : [];
+    }
+
+    function renderGroupChips(dateKey) {
+      const selected = getSelectedGroupsForDate(dateKey);
+      groupChipsEl.innerHTML = "";
+
+      GROUP_ORDER.forEach((id) => {
+        const def = GROUP_LIBRARY[id];
+        if (!def) return;
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "chip" + (selected.includes(id) ? " active" : "");
+        chip.textContent = def.label;
+        chip.onclick = () => {
+          const current = getSelectedGroupsForDate(dateKey).slice();
+          const idx = current.indexOf(id);
+          if (idx >= 0) {
+            current.splice(idx, 1);
+          } else {
+            current.push(id);
+          }
+          setSelectedGroupsForDate(dateKey, current);
+          renderToday(); // only refresh today's view
+        };
+        groupChipsEl.appendChild(chip);
+      });
+    }
+
+    // ---------- TODAY ----------
     function renderToday() {
       const today = todayLocal();
       const todayKey = formatDateKey(today);
@@ -654,7 +840,8 @@ textarea {
       })} • ${plan.name}`;
 
       exerciseListEl.innerHTML = "";
-      exerciseCountRowEl.style.display = "none"; // default hidden
+      groupSelectorRowEl.style.display = "none";
+      exerciseCountRowEl.style.display = "none";
 
       if (info.type === "prestart") {
         todayNameEl.textContent = "Plan hasn’t started yet";
@@ -667,6 +854,8 @@ textarea {
           alert("Plan started from today!");
           renderAll();
         };
+        streakTextEl.textContent =
+          "Once the plan starts, your streak will show here.";
         return;
       }
 
@@ -677,45 +866,87 @@ textarea {
         li.innerHTML =
           '<span>Light walk, stretching, or full rest.</span><span class="badge">Optional</span>';
         exerciseListEl.appendChild(li);
-      } else if (info.type === "workout") {
-        todayNameEl.textContent = info.workout.name;
 
-        const total = info.workout.exercises.length;
-
-        // figure out how many exercises user wants for today
-        state.perDayTargets = state.perDayTargets || {};
-        let target = state.perDayTargets[todayKey];
-        if (!target || target < 1 || target > total) {
-          target = total; // default: all
-        }
-
-        // show selector row
-        exerciseCountRowEl.style.display = "flex";
-        exerciseCountSelectEl.innerHTML = "";
-        for (let i = 1; i <= total; i++) {
-          const opt = document.createElement("option");
-          opt.value = i;
-          opt.textContent = i;
-          if (i === target) opt.selected = true;
-          exerciseCountSelectEl.appendChild(opt);
-        }
-
-        exerciseCountSelectEl.onchange = () => {
-          const val = parseInt(exerciseCountSelectEl.value, 10) || total;
-          state.perDayTargets[todayKey] = Math.max(1, Math.min(total, val));
+        doneButtonEl.textContent = "Mark as done";
+        doneButtonEl.classList.remove("done");
+        doneButtonEl.onclick = () => {
+          const isDone = !!state.completed[todayKey];
+          if (isDone) {
+            delete state.completed[todayKey];
+          } else {
+            state.completed[todayKey] = true;
+          }
           saveData(state);
           renderAll();
         };
 
-        // render only the chosen number of exercises
-        info.workout.exercises.slice(0, target).forEach((ex) => {
-          const li = document.createElement("li");
-          li.className = "exercise-row";
-          li.innerHTML = `<span>${ex.name}</span><span class="badge">${ex.sets} × ${ex.reps}</span>`;
-          exerciseListEl.appendChild(li);
-        });
-      } else {
-        todayNameEl.textContent = "No workout";
+        const streak = computeStreak();
+        if (streak > 0) {
+          streakTextEl.innerHTML = `Current streak: <span class="streak-strong">${streak} day${
+            streak === 1 ? "" : "s"
+          }</span>`;
+        } else {
+          streakTextEl.textContent =
+            "No current streak yet. Today’s a good day to start!";
+        }
+        return;
+      }
+
+      if (info.type === "workout") {
+        groupSelectorRowEl.style.display = "flex";
+        renderGroupChips(todayKey);
+
+        const selectedGroups = getSelectedGroupsForDate(todayKey);
+        const pool = buildExercisePool(info.workout, selectedGroups);
+
+        if (selectedGroups.length > 0) {
+          const labels = selectedGroups
+            .map((id) => GROUP_LIBRARY[id]?.label || "")
+            .filter(Boolean);
+          todayNameEl.textContent =
+            "Custom: " + labels.join(" + ");
+        } else {
+          todayNameEl.textContent = info.workout.name;
+        }
+
+        const totalAvailable = pool.length;
+        if (totalAvailable > 0) {
+          const maxSelectable = Math.min(10, totalAvailable);
+          state.perDayTargets = state.perDayTargets || {};
+          let target = state.perDayTargets[todayKey];
+          if (!target || target < 1 || target > maxSelectable) {
+            target = maxSelectable;
+          }
+
+          exerciseCountRowEl.style.display = "flex";
+          exerciseCountSelectEl.innerHTML = "";
+          for (let i = 1; i <= maxSelectable; i++) {
+            const opt = document.createElement("option");
+            opt.value = i;
+            opt.textContent = i;
+            if (i === target) opt.selected = true;
+            exerciseCountSelectEl.appendChild(opt);
+          }
+
+          exerciseCountSelectEl.onchange = () => {
+            const val = parseInt(exerciseCountSelectEl.value, 10) || maxSelectable;
+            state.perDayTargets[todayKey] = Math.max(
+              1,
+              Math.min(maxSelectable, val)
+            );
+            saveData(state);
+            renderToday();
+          };
+
+          pool.slice(0, target).forEach((ex) => {
+            const li = document.createElement("li");
+            li.className = "exercise-row";
+            li.innerHTML = `<span>${ex.name}</span><span class="badge">${ex.sets} × ${ex.reps}</span>`;
+            exerciseListEl.appendChild(li);
+          });
+        } else {
+          todayNameEl.textContent = "No exercises defined for today.";
+        }
       }
 
       const isDone = !!state.completed[todayKey];
@@ -846,11 +1077,12 @@ textarea {
           left.appendChild(labels);
 
           const right = document.createElement("div");
-          right.className = d.info.type === "rest"
-            ? ""
-            : d.isDone
-            ? "status-complete"
-            : "status-missed";
+          right.className =
+            d.info.type === "rest"
+              ? ""
+              : d.isDone
+              ? "status-complete"
+              : "status-missed";
           right.textContent =
             d.info.type === "rest"
               ? ""
@@ -928,7 +1160,9 @@ textarea {
         alert("Paste backup JSON first.");
         return;
       }
-      if (!confirm("Restore backup? This will overwrite current progress.")) return;
+      if (!confirm("Restore backup? This will overwrite current progress.")) {
+        return;
+      }
       try {
         const parsed = JSON.parse(raw);
         if (!parsed.startDateIso || !parsed.planId) {
@@ -944,7 +1178,9 @@ textarea {
     });
 
     resetButtonEl.addEventListener("click", () => {
-      if (!confirm("Clear completion history but keep plan & start date?")) return;
+      if (!confirm("Clear completion history but keep plan & start date?")) {
+        return;
+      }
       state.completed = {};
       saveData(state);
       renderAll();
@@ -955,6 +1191,3 @@ textarea {
   </script>
 </body>
 </html>
-
-
-
