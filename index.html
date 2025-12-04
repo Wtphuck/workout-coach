@@ -969,7 +969,11 @@
     const modalImageEl = document.getElementById("modalImage");
     const modalTextEl = document.getElementById("modalText");
     const modalCloseEl = document.getElementById("modalClose");
-
+    // Map exercise names to custom images in the repo
+    const EXERCISE_IMAGES = {
+    "Bench Press": "bench-press.png" // example image in repo root
+    // Add more like: "Squats": "squats.png"
+};
     modalCloseEl.onclick = () => {
       modalEl.classList.add("hidden");
     };
@@ -979,16 +983,26 @@
       }
     });
 
-    function showExerciseModal(ex) {
-      modalTitleEl.textContent = ex.name;
-      modalTextEl.textContent =
-        ex.tip || "Form tip coming soon. Focus on slow, controlled reps.";
-      const safeName = encodeURIComponent(ex.name.replace(/\s+/g, "+"));
-      modalImageEl.src =
-        "https://via.placeholder.com/320x200.png?text=" + safeName;
-      modalEl.classList.remove("hidden");
-    }
+   function showExerciseModal(ex) {
+  modalTitleEl.textContent = ex.name;
+  modalTextEl.textContent =
+    ex.tip || "Form tip coming soon. Focus on slow, controlled reps.";
 
+  // If we have a custom image for this exercise, use it.
+  const customImage = EXERCISE_IMAGES[ex.name];
+
+  if (customImage) {
+    // File in the repo (e.g., bench-press.png)
+    modalImageEl.src = customImage;
+  } else {
+    // Fallback placeholder if you haven't wired a real image yet
+    const safeName = encodeURIComponent(ex.name.replace(/\s+/g, "+"));
+    modalImageEl.src =
+      "https://via.placeholder.com/320x200.png?text=" + safeName;
+  }
+
+  modalEl.classList.remove("hidden");
+}
     // --- Focus helpers ---
     function getFocusForDate(dateKey) {
       state.selectedFocus = state.selectedFocus || {};
@@ -1392,3 +1406,4 @@
   </script>
 </body>
 </html>
+
