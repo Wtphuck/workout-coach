@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <title>Workout Coach</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Service Worker Registration (must be inside <head>) -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("firebase-messaging-sw.js")
+        .then(() => console.log("Service Worker registered"))
+        .catch(err => console.error("SW registration failed:", err));
+    }
+  </script> 
 
   <!-- iOS "app-like" behavior -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -549,7 +557,48 @@
       <button id="modalClose" class="modal-close">Got it</button>
     </div>
   </div>
+  <button id="enableNotificationsBtn"
+        style="position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; z-index: 999;">
+  Enable Notifications
+</button>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js"></script>
+  <script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCj3Uyxcxe1VzmRGsBWfAshyCljOlQkOfM",
+    authDomain: "workout-coach-a8430.firebaseapp.com",
+    projectId: "workout-coach-a8430",
+    storageBucket: "workout-coach-a8430.firebasestorage.app",
+    messagingSenderId: "335310300734",
+    appId: "1:335310300734:web:d2ad9deb156338b240d36f",
+    measurementId: "G-RW1XXH4H10"
+  };
 
+  firebase.initializeApp(firebaseConfig);
+  const messaging = firebase.messaging();
+
+  async function enableNotifications() {
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") {
+      alert("Notifications blocked.");
+      return;
+    }
+
+    const vapidKey = "YOUR_PUBLIC_VAPID_KEY_HERE"; // Replace with your Firebase Web Push key
+
+    try {
+      const token = await messaging.getToken({ vapidKey });
+      console.log("FCM Token:", token);
+      alert("Notifications enabled! Check console for token.");
+    } catch (err) {
+      console.error("Notification error:", err);
+    }
+  }
+
+  document.getElementById("enableNotificationsBtn")
+          .addEventListener("click", enableNotifications);
+</script>
+  
   <script>
     const STORAGE_KEY = "wc_v2_data";
 
@@ -1485,6 +1534,7 @@
   </script>
 </body>
 </html>
+
 
 
 
