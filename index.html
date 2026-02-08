@@ -578,22 +578,32 @@
   const messaging = firebase.messaging();
 
   async function enableNotifications() {
-    const permission = await Notification.requestPermission();
-    if (permission !== "granted") {
-      alert("Notifications blocked.");
-      return;
-    }
-
-    const vapidKey = "BCyOwI5ZIcZZ2ISsR2lkce5FcYSyQkPZcsaZ-ZNOqsqhkhAguvGtj3wSweMnUqBFW3Lc01qxyxQZEcqXwN5TqW8"; // Replace with your Firebase Web Push key
-
-    try {
-      const token = await messaging.getToken({ vapidKey });
-      console.log("FCM Token:", token);
-      alert("Notifications enabled! Check console for token.");
-    } catch (err) {
-      console.error("Notification error:", err);
-    }
+  const permission = await Notification.requestPermission();
+  if (permission !== "granted") {
+    alert("Notifications blocked.");
+    return;
   }
+
+  // Register the service worker in the correct repo scope
+  const swReg = await navigator.serviceWorker.register(
+    "/workout-coach/firebase-messaging-sw.js"
+  );
+
+  const vapidKey =
+    "BCyOwI5ZIcZZ2ISsR2lkce5FcYSyQkPZcsaZ-ZNOqsqhkhAguvGtj3wSweMnUqBFW3Lc01qxyxQZEcqXwN5TqW8";
+
+  try {
+    const token = await messaging.getToken({
+      vapidKey,
+      serviceWorkerRegistration: swReg
+    });
+
+    console.log("FCM Token:", token);
+    alert("Notifications enabled!");
+  } catch (err) {
+    console.error("Notification error:", err);
+  }
+}
 
   document.getElementById("enableNotificationsBtn")
           .addEventListener("click", enableNotifications);
@@ -1534,6 +1544,7 @@
   </script>
 </body>
 </html>
+
 
 
 
