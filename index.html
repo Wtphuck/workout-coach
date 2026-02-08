@@ -584,13 +584,14 @@
     return;
   }
 
-  // Register the service worker in the correct repo scope
   const swReg = await navigator.serviceWorker.register(
     "/workout-coach/firebase-messaging-sw.js"
   );
 
-  const vapidKey =
-    "BCyOwI5ZIcZZ2ISsR2lkce5FcYSyQkPZcsaZ-ZNOqsqhkhAguvGtj3wSweMnUqBFW3Lc01qxyxQZEcqXwN5TqW8";
+  // IMPORTANT: ensure it is active
+  await navigator.serviceWorker.ready;
+
+  const vapidKey = "BCyOwI5ZIcZZ2ISsR2lkce5FcYSyQkPZcsaZ-ZNOqsqhkhAguvGtj3wSweMnUqBFW3Lc01qxyxQZEcqXwN5TqW8";
 
   try {
     const token = await messaging.getToken({
@@ -602,8 +603,10 @@
     alert("Notifications enabled!");
   } catch (err) {
     console.error("Notification error:", err);
+    alert("Notification error - check console");
   }
 }
+
 
   document.getElementById("enableNotificationsBtn")
           .addEventListener("click", enableNotifications);
@@ -1544,6 +1547,7 @@
   </script>
 </body>
 </html>
+
 
 
 
